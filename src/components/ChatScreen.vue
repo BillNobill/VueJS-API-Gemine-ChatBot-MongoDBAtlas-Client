@@ -20,7 +20,7 @@
   </div>
 </template>
 
-<script type="module">
+<script defer type="module">
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export default {
@@ -42,14 +42,18 @@ export default {
   async mounted() {
     try {
       // Inicia uma nova conversa e obtém o ID
-      const response = await fetch("https://vuejs-api-gemine-chatbot-server.onrender.com/startConversation", {
-        method: "POST",
-      });
+      const response = await fetch(
+        "https://vuejs-api-gemine-chatbot-server.onrender.com/startConversation" ||
+          "http://localhost:5000/startConversation",
+        {
+          method: "POST",
+        }
+      );
       const data = await response.json();
       this.conversation_id = data.conversation_id;
 
       this.genAI = new GoogleGenerativeAI(
-        process.env.API_KEY
+        "AIzaSyD86naXzhpMMHqtxryQGpRYQXE9BjuxzQA"
       );
       const model = this.genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
@@ -120,16 +124,20 @@ export default {
       ];
 
       // Enviar as mensagens ao servidor para salvar
-      await fetch("https://vuejs-api-gemine-chatbot-server.onrender.com/saveConversation", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          conversation_id: this.conversation_id,
-          messages,
-        }),
-      });
+      await fetch(
+        "https://vuejs-api-gemine-chatbot-server.onrender.com/saveConversation" ||
+          "http://localhost:5000/saveConversation",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            conversation_id: this.conversation_id,
+            messages,
+          }),
+        }
+      );
     },
   },
 };
