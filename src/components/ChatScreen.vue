@@ -45,25 +45,34 @@ export default {
   },
   async mounted() {
     try {
+      // Captura o IP do usuário usando a API Ipify
+      const ipResponse = await fetch("https://api.ipify.org?format=json");
+      const ipData = await ipResponse.json();
+      const user_ip = ipData.ip; // Obtendo o IP
+
       // Inicia uma nova conversa e obtém o ID
       const response = await fetch(
-        "https://vuejs-api-gemine-chatbot-server.onrender.com/startConversation" ||
-          "http://localhost:5000/startConversation",
+        "http://localhost:5000/startConversation" ||
+          "https://vuejs-api-gemine-chatbot-server.onrender.com/startConversation",
         {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user_ip }), // Enviando o IP ao servidor
         }
       );
       const data = await response.json();
-      this.conversation_id = data.conversation_id;
+      console.log(data)
+      this.conversation_id = user_ip;
 
+      // Continue com o restante da inicialização...
       this.genAI = new GoogleGenerativeAI(
         "AIzaSyD86naXzhpMMHqtxryQGpRYQXE9BjuxzQA"
       );
       const model = this.genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
       });
-
-      console.log("Generative model:", model);
 
       this.chatSession = model.startChat({
         generationConfig: {
@@ -84,7 +93,7 @@ export default {
         ],
       });
 
-      console.log("Chat session started:", this.chatSession);
+      console.log("Chat session started!");
     } catch (error) {
       console.error("Error during initialization:", error);
     }
@@ -138,15 +147,15 @@ export default {
 
       // Enviar as mensagens ao servidor para salvar
       await fetch(
-        "https://vuejs-api-gemine-chatbot-server.onrender.com/saveConversation" ||
-          "http://localhost:5000/saveConversation",
+        "http://localhost:5000/saveConversation" ||
+          "https://vuejs-api-gemine-chatbot-server.onrender.com/saveConversation",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            conversation_id: this.conversation_id,
+            user_ip: this.conversation_id, // Alterado para usar user_ip
             messages,
           }),
         }
