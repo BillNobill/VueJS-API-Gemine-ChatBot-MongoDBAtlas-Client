@@ -50,6 +50,18 @@ export default {
       const ipData = await ipResponse.json();
       const user_ip = ipData.ip; // Obtendo o IP
 
+      // Captura a localização usando o IP
+      const locationResponse = await fetch(`http://ip-api.com/json/${user_ip}`);
+      const locationData = await locationResponse.json();
+
+      // Prepara os dados a serem enviados ao servidor
+      const locationInfo = {
+        user_ip,
+        city: locationData.city,
+        region: locationData.regionName,
+        country: locationData.country,
+      };
+
       // Inicia uma nova conversa e obtém o ID
       const response = await fetch(
         "http://localhost:5000/startConversation" ||
@@ -59,7 +71,7 @@ export default {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ user_ip }), // Enviando o IP ao servidor
+          body: JSON.stringify(locationInfo), // Enviando o IP ao servidor
         }
       );
       const data = await response.json();
