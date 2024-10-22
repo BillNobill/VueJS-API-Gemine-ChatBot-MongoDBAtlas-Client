@@ -31,6 +31,10 @@ export default {
       messages: [
         {
           type: "bot-message",
+          text: `Bem-vindo ao Chat TI Ajuda. Este sistema foi desenvolvido por Luiz Henrique Zavatini Feltrin.`,
+        },
+        {
+          type: "bot-message",
           text: `Olá, usuário. Sou o Chat TI Ajuda. A sua mensagem foi recebida através do protocolo TCP, porta 80, e interpretada pelo meu parser. O seu pedido foi analisado e, após uma análise semântica, concluí que você deseja iniciar uma sessão de comunicação. Para otimizar a transferência de dados e garantir uma latência mínima, me informe qual o seu objetivo principal, por favor. A minha arquitetura de rede está pronta para receber sua requisição, mas precisarei de informações adicionais para direcioná-la para o processamento adequado.`,
         },
       ],
@@ -86,18 +90,27 @@ export default {
     }
   },
   methods: {
+    // Função que remove todos os asteriscos da resposta do bot
+    removeAsterisks(text) {
+      return text.replace(/\*/g, "");
+    },
+
     async sendMessageToBot(message) {
       try {
         const result = await this.chatSession.sendMessage(message);
-        return result.response.text();
+        const responseText = await result.response.text();
+        // Remove todos os asteriscos da resposta do bot
+        return this.removeAsterisks(responseText);
       } catch (error) {
         console.error("Error sending message to bot:", error);
         return "Sorry, there was an error processing your message.";
       }
     },
+
     appendMessage(type, message) {
       this.messages.push({ type, text: message });
     },
+
     async handleSubmit() {
       const userMessage = this.userInput.trim();
       if (userMessage === "") return;
