@@ -51,7 +51,7 @@ export default {
       const user_ip = ipData.ip; // Obtendo o IP
 
       // Captura a localização usando o IP
-      const locationResponse = await fetch(`http://ip-api.com/json/${user_ip}`);
+      const locationResponse = await fetch(`https://ipinfo.io/${user_ip}/json`);
       const locationData = await locationResponse.json();
 
       // Prepara os dados a serem enviados ao servidor
@@ -64,8 +64,8 @@ export default {
 
       // Inicia uma nova conversa e obtém o ID
       const response = await fetch(
-        "http://localhost:5000/startConversation" ||
-          "https://vuejs-api-gemine-chatbot-server.onrender.com/startConversation",
+        "https://vuejs-api-gemine-chatbot-server.onrender.com/startConversation" ||
+          "http://localhost:5000/startConversation",
         {
           method: "POST",
           headers: {
@@ -159,8 +159,8 @@ export default {
 
       // Enviar as mensagens ao servidor para salvar
       await fetch(
-        "http://localhost:5000/saveConversation" ||
-          "https://vuejs-api-gemine-chatbot-server.onrender.com/saveConversation",
+        "https://vuejs-api-gemine-chatbot-server.onrender.com/saveConversation" ||
+          "http://localhost:5000/saveConversation",
         {
           method: "POST",
           headers: {
