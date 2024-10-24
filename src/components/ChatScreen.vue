@@ -58,7 +58,7 @@ export default {
       const locationInfo = {
         user_ip,
         city: locationData.city,
-        region: locationData.regionName,
+        region: locationData.region,
         country: locationData.country,
       };
 
