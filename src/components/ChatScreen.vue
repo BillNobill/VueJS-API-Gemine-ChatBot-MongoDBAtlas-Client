@@ -75,7 +75,7 @@ export default {
         }
       );
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       this.conversation_id = user_ip;
 
       // Continue com o restante da inicialização...
@@ -205,7 +205,7 @@ export default {
   margin: 0 auto;
   border-radius: 8px;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.4);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(7.5px);
   -webkit-backdrop-filter: blur(7.5px);
@@ -263,7 +263,7 @@ input[type="text"] {
 }
 
 input[type="text"]::placeholder {
-  color: #a4a4a4;
+  color: #c6c6c6;
 }
 
 button {
