@@ -64,8 +64,8 @@ export default {
 
       // Inicia uma nova conversa e obtém o ID
       const response = await fetch(
-        "https://vuejs-api-gemine-chatbot-server.onrender.com/startConversation" ||
-          "http://localhost:5000/startConversation",
+        "http://localhost:5000/startConversation" ||
+          "https://vuejs-api-gemine-chatbot-server.onrender.com/startConversation",
         {
           method: "POST",
           headers: {
@@ -159,8 +159,8 @@ export default {
 
       // Enviar as mensagens ao servidor para salvar
       await fetch(
-        "https://vuejs-api-gemine-chatbot-server.onrender.com/saveConversation" ||
-          "http://localhost:5000/saveConversation",
+        "http://localhost:5000/saveConversation" ||
+          "https://vuejs-api-gemine-chatbot-server.onrender.com/saveConversation",
         {
           method: "POST",
           headers: {
