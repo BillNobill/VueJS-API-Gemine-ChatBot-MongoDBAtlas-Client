@@ -76,6 +76,29 @@ export default {
       );
       const data = await response.json();
       console.log(data);
+
+      if (data.message == "Conversa já existe para este IP.") {
+        const response = await fetch(
+          `http://localhost:5000/getConversation?user_ip=${user_ip}` ||
+            `https://vuejs-api-gemine-chatbot-server.onrender.com/getConversation?user_ip=${user_ip}`
+        );
+
+        if (response.ok) {
+          const messages = await response.json();
+          // Adiciona as mensagens ao array de mensagens no front-end
+          const previousMessages = messages.map((msg) => ({
+            type: msg.sender === "user" ? "user-message" : "bot-message",
+            text: msg.message,
+          }));
+          // Mantenha as duas mensagens padrão e adicione as anteriores
+          this.messages = [
+            ...this.messages, // Mensagens padrão
+            ...previousMessages, // Mensagens anteriores
+          ];
+        } else {
+          console.log("No previous conversation found or an error occurred.");
+        }
+      }
       this.conversation_id = user_ip;
 
       // Continue com o restante da inicialização...
