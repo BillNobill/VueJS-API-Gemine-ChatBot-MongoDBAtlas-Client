@@ -41,6 +41,7 @@ export default {
       genAI: null,
       chatSession: null,
       conversation_id: null,
+      history: [], // Histórico incremental da conversa
     };
   },
   async mounted() {
@@ -103,7 +104,7 @@ export default {
 
       // Continue com o restante da inicialização...
       this.genAI = new GoogleGenerativeAI(
-        "AIzaSyD86naXzhpMMHqtxryQGpRYQXE9BjuxzQA"
+        "AIzaSyDxXkVq8_y3OsnW0_BcjEBqMv0jo_0g4Kk"
       );
       const model = this.genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
@@ -141,7 +142,16 @@ export default {
 
     async sendMessageToBot(message) {
       try {
+        // Adiciona a mensagem do usuário ao histórico
+        this.history.push({
+          role: "user",
+          parts: [{ text: message }],
+        });
+
+        console.log("Histórico enviado:", this.history);
+
         const result = await this.chatSession.sendMessage(message);
+        
         const responseText = await result.response.text();
         // Remove todos os asteriscos da resposta do bot
         return this.removeAsterisks(responseText);
