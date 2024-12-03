@@ -65,8 +65,8 @@ export default {
 
       // Inicia uma nova conversa e obtém o ID
       const response = await fetch(
-        "http://localhost:5000/startConversation" ||
-          "https://vuejs-api-gemine-chatbot-server.onrender.com/startConversation",
+        "https://vuejs-api-gemine-chatbot-server.onrender.com/startConversation" ||
+          "http://localhost:5000/startConversation",
         {
           method: "POST",
           headers: {
@@ -80,8 +80,8 @@ export default {
 
       if (data.message == "Conversa já existe para este IP.") {
         const response = await fetch(
-          `http://localhost:5000/getConversation?user_ip=${user_ip}` ||
-            `https://vuejs-api-gemine-chatbot-server.onrender.com/getConversation?user_ip=${user_ip}`
+          `https://vuejs-api-gemine-chatbot-server.onrender.com/getConversation?user_ip=${user_ip}` ||
+            `http://localhost:5000/getConversation?user_ip=${user_ip}`
         );
 
         if (response.ok) {
@@ -151,7 +151,7 @@ export default {
         console.log("Histórico enviado:", this.history);
 
         const result = await this.chatSession.sendMessage(message);
-        
+
         const responseText = await result.response.text();
         // Remove todos os asteriscos da resposta do bot
         return this.removeAsterisks(responseText);
@@ -192,8 +192,8 @@ export default {
 
       // Enviar as mensagens ao servidor para salvar
       await fetch(
-        "http://localhost:5000/saveConversation" ||
-          "https://vuejs-api-gemine-chatbot-server.onrender.com/saveConversation",
+        "https://vuejs-api-gemine-chatbot-server.onrender.com/saveConversation" ||
+          "http://localhost:5000/saveConversation",
         {
           method: "POST",
           headers: {
