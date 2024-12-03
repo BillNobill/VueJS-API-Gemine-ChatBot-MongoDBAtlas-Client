@@ -63,10 +63,11 @@ export default {
         country: locationData.country,
       };
 
+      console.log(locationInfo);
       // Inicia uma nova conversa e obtém o ID
       const response = await fetch(
-        "https://vuejs-api-gemine-chatbot-server.onrender.com/startConversation" ||
-          "http://localhost:5000/startConversation",
+        "https://vuejs-api-gemine-chatbot-server.onrender.com/startConversation",
+        // "http://localhost:5000/startConversation",
         {
           method: "POST",
           headers: {
@@ -80,8 +81,8 @@ export default {
 
       if (data.message == "Conversa já existe para este IP.") {
         const response = await fetch(
-          `https://vuejs-api-gemine-chatbot-server.onrender.com/getConversation?user_ip=${user_ip}` ||
-            `http://localhost:5000/getConversation?user_ip=${user_ip}`
+          `https://vuejs-api-gemine-chatbot-server.onrender.com/getConversation?user_ip=${user_ip}`
+          // `http://localhost:5000/getConversation?user_ip=${user_ip}`
         );
 
         if (response.ok) {
@@ -192,8 +193,8 @@ export default {
 
       // Enviar as mensagens ao servidor para salvar
       await fetch(
-        "https://vuejs-api-gemine-chatbot-server.onrender.com/saveConversation" ||
-          "http://localhost:5000/saveConversation",
+        "https://vuejs-api-gemine-chatbot-server.onrender.com/saveConversation",
+        // "http://localhost:5000/saveConversation",
         {
           method: "POST",
           headers: {
