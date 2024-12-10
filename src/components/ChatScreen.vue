@@ -173,6 +173,39 @@ export default {
       this.appendMessage("user-message", userMessage);
       this.userInput = "";
 
+      // Continue com o restante da inicialização...
+      this.genAI = new GoogleGenerativeAI(
+        "AIzaSyDxXkVq8_y3OsnW0_BcjEBqMv0jo_0g4Kk"
+      );
+      const model = this.genAI.getGenerativeModel({
+        model: "gemini-1.5-flash",
+      });
+
+      try {
+        this.chatSession = model.startChat({
+          generationConfig: {
+            temperature: 1,
+            topP: 0.95,
+            topK: 64,
+            responseMimeType: "text/plain",
+          },
+          history: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: "Você agora é um mestre em informática e em computadores, tire todas as dúvidas do usuário e recepcione ele bem. Não precisa se apresentar, fala em uma linguagem absurdamente técnica, um nivel quase incompreenssivel de técnico, que o usuario não entenda quase nada.",
+                },
+              ],
+            },
+          ],
+        });
+
+        console.log("Chat session started!");
+      } catch (error) {
+        console.error("Error during initialization:", error);
+      }
+
       if (!this.chatSession) {
         console.error("Chat session is not initialized");
         this.appendMessage(
